@@ -44,7 +44,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifDirectory;
 import com.drew.metadata.exif.ExifReader;
-import liredemo.indexing.MetadataBuilder;
+
 import net.semanticmetadata.lire.impl.ChainedDocumentBuilder;
 
 import javax.imageio.ImageIO;
@@ -58,6 +58,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import liredemo.indexing.MetadataBuilder;
 import net.semanticmetadata.lire.indexing.parallel.ParallelIndexer;
 /**
  * This file is part of the Caliph and Emir project: http://www.SemanticMetadata.net

@@ -31,7 +31,6 @@
 package liredemo.flickr;
 
 import liredemo.LireDemoFrame;
-import liredemo.indexing.MetadataBuilder;
 import net.semanticmetadata.lire.DocumentBuilder;
 import net.semanticmetadata.lire.utils.LuceneUtils;
 import org.apache.lucene.document.Document;
@@ -50,6 +49,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import liredemo.indexing.MetadataBuilder;
 
 /**
  * This file is part of the Caliph and Emir project: http://www.SemanticMetadata.net

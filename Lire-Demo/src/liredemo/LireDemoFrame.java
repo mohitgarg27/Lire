@@ -1539,16 +1539,14 @@ public class LireDemoFrame extends javax.swing.JFrame
         mosaicOptionsCedd.setEnabled(enable);
         mosaicOptionsColorLayout.setEnabled(enable);
         //spinnerMosaicOptionCl.setEnabled(enable);
-        //spinnerMosaicOptionEh.setEnabled(enable);
+         //spinnerMosaicOptionEh.setEnabled(enable);
         //spinnerMosaicOptionSc.setEnabled(enable);
     }
 
     private void searchForDocument(Document d) {
         final Document myDoc = d;
-        // setting to search panel:
         ((CardLayout) cardPanel.getLayout()).first(cardPanel);
         ((CardLayout) cardPanel.getLayout()).next(cardPanel);
-        // switching away from search results ...
         ((CardLayout) topPane.getLayout()).first(topPane);
         resultsTable.setEnabled(false);
         final JPanel frame = topPane;
@@ -1558,12 +1556,10 @@ public class LireDemoFrame extends javax.swing.JFrame
                     progressSearch.setValue(0);
                     IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(textfieldIndexName.getText())));
                     ImageSearcher searcher = getSearcher();
-                    // System.out.println(searcher.getClass().getName() + " " + searcher.toString());
                     progressSearch.setString("Searching for matching images: " + searcher.getClass().getName());
                     ImageSearchHits hits = searcher.search(myDoc, reader);
                     tableModel.setHits(hits, progressSearch);
                     reader.close();
-                    // scroll to first row:
                     Rectangle bounds = resultsTable.getCellRect(0, 0, true);
                     resultsPane.getViewport().setViewPosition(bounds.getLocation());
                 } catch (Exception e) {
