@@ -5,6 +5,7 @@
 package lire.mains;
 
 import lire.classes.IndexingThread;
+import lire.classes.SearcherThread;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Searcher
         }
         else
         {
-            IndexingThread t = new IndexingThread(args[1], args[2], Integer.parseInt(args[3]));
+            SearcherThread t = new SearcherThread(args[1], args[2], args[1].concat("/ids.txt"), Integer.parseInt(args[3]));
             t.start();
         }
     }
