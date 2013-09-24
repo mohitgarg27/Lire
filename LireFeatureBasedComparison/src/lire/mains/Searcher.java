@@ -4,6 +4,8 @@
  */
 package lire.mains;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lire.classes.IndexingThread;
 import lire.classes.SearcherThread;
 
@@ -21,8 +23,16 @@ public class Searcher
         }
         else
         {
-            SearcherThread t = new SearcherThread(args[1], args[2], args[1].concat("/ids.txt"), Integer.parseInt(args[3]));
-            t.start();
+            for(int numRes = 10; numRes<=100; numRes = numRes + 10)
+            {
+                SearcherThread t = new SearcherThread(args[1], args[2], args[1].concat("/ids.txt"), numRes);
+                t.start();
+                try {
+                    t.join();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Searcher.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
     

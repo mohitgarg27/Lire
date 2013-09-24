@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 import net.semanticmetadata.lire.DocumentBuilder;
@@ -101,17 +102,23 @@ public class SearcherThread extends Thread
                 return;
             }
             totalImages = images.size();
+            Collections.shuffle(images);
             
             initTime = System.currentTimeMillis();
             prevTime = initTime;
             IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(inDir)));
             for(Feature foo : Feature.values())
             {
+                double avgPrecision = 0;
+                double avgRecall = 0;
+                long avgQueryTime = 0;
                 imSearcher = getSearcher(foo.name());
+                
+                int imCount = 0;
                 for(String imLoc : images)
                 {
                     ImageSearchHits hits = imSearcher.search(ImageIO.read(new FileInputStream(imLoc)), reader);
-                    long queryTime = System.currentTimeMillis() - prevTime;
+                    avgQueryTime += System.currentTimeMillis() - prevTime;
                     
                     ArrayList<String> results = new ArrayList<String>();
                     if(hits!=null)
@@ -120,15 +127,19 @@ public class SearcherThread extends Thread
                             results.add(hits.doc(i).getField(DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue());
                         }
                     
-                    double precision = calculatePrecision(imLoc, results);
-                    double recall = calculateRecall(imLoc, results);
+                    avgPrecision += calculatePrecision(imLoc, results);
+                    avgRecall += calculateRecall(imLoc, results);
 
-                    prevTime = System.currentTimeMillis();
-                    
-                    System.out.printf("%-20s %-12s %20d %12s %12s \n", foo.name(), imLoc, queryTime, df.format(precision), df.format(recall)  );
-                    //break;
+                    prevTime = System.currentTimeMillis();     
+                    //System.out.println(imLoc+ " " + avgPrecision + " " + avgRecall + " " + imCount );
+                    imCount++;
+                    if(imCount>numResults)
+                        break;
                 }
-                
+                avgQueryTime /=images.size();
+                avgPrecision /= images.size();
+                avgRecall /= images.size();
+                System.out.printf("%18s %4d %20d %12s %12s \n", foo.name(), numResults, avgQueryTime, df.format(avgPrecision), df.format(avgRecall)  );
             }            
         } 
         catch (IOException ex) 
